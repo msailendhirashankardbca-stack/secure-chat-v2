@@ -112,6 +112,7 @@ export default function SecureChat() {
   }, [messages]);
 
   // Timer countdown
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!expiryTime) return;
 
@@ -131,7 +132,6 @@ export default function SecureChat() {
     }, 1000);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expiryTime]);
 
   // Listen to Firebase messages in real-time
