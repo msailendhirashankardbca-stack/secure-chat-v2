@@ -131,6 +131,7 @@ export default function SecureChat() {
     }, 1000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expiryTime]);
 
   // Listen to Firebase messages in real-time
