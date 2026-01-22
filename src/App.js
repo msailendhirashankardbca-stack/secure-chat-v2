@@ -207,12 +207,16 @@ export default function SecureChat() {
       });
 
       const protocol = window.location.protocol;
-      let baseURL = window.location.origin;
+      let baseURL = window.location.href.split('?')[0];
+      // Remove trailing slash if present
+      if (baseURL.endsWith('/')) {
+        baseURL = baseURL.slice(0, -1);
+      }
 
-      // Priority: ngrok > local IP > current location
+      // Priority: ngrok > local IP (only if localhost) > current location
       if (ngrokURL) {
         baseURL = ngrokURL;
-      } else if (localIP) {
+      } else if (localIP && window.location.hostname === 'localhost') {
         baseURL = `${protocol}//${localIP}:3000`;
       }
 
