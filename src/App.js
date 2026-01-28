@@ -18,6 +18,7 @@ export default function SecureChat() {
   const [connected, setConnected] = useState(true);
   const [localIP, setLocalIP] = useState('');
   const [ngrokURL, setNgrokURL] = useState('');
+  const [customDuration, setCustomDuration] = useState('');
 
   const messagesEndRef = useRef(null);
 
@@ -242,6 +243,26 @@ export default function SecureChat() {
     }
   };
 
+  const handleCustomCreate = () => {
+    if (!customDuration) {
+      alert('Please enter a duration.');
+      return;
+    }
+
+    const duration = parseFloat(customDuration);
+    if (isNaN(duration) || duration <= 0) {
+      alert('Please enter a valid positive number for hours.');
+      return;
+    }
+
+    if (duration > 168) {
+      alert('Maximum duration is 168 hours (7 days) for security reasons.');
+      return;
+    }
+
+    createChatRoom(duration);
+  };
+
   const joinChat = () => {
     if (!tempUsername.trim()) {
       alert('Please enter your name');
@@ -405,6 +426,27 @@ export default function SecureChat() {
                 <span className="font-semibold">24 Hours Chat</span>
                 <Clock className="w-5 h-5 group-hover:animate-spin" />
               </button>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <label className="text-gray-300 text-sm mb-2 block">Or set custom duration (Hours):</label>
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  value={customDuration}
+                  onChange={(e) => setCustomDuration(e.target.value)}
+                  placeholder="e.g. 0.5 or 48"
+                  className="flex-1 bg-slate-800/50 border border-slate-600 text-white rounded-xl px-4 py-3 outline-none focus:border-blue-500 transition-all font-mono"
+                />
+                <button
+                  onClick={handleCustomCreate}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-xl transition-all font-semibold"
+                >
+                  Create
+                </button>
+              </div>
             </div>
 
             <div className="mt-6 space-y-2 text-sm text-gray-300">
